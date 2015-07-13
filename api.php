@@ -19,6 +19,8 @@ if (!empty($_GET['logout']))
     exit;
 }
 
+$response = [];
+
 if (isset($_SESSION['login']))
 {
     $response = [
@@ -31,9 +33,6 @@ if (isset($_SESSION['login']))
     ];
 
 }
-else
-{
-    $response = [];
-}
+
 echo json_encode($response);
 ?>
