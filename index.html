@@ -1,0 +1,75 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Stupid cache</title>
+
+</head>
+<body>
+
+    <h1>Stupid caching</h1>
+    <div class="content">We have content. This is guest that can view and this for google view and seo.
+    </div>
+
+    <div class="member_box">
+        You are guest. <a href="#login" data-action="login">Login as user</a>.
+    </div>
+
+
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
+<script>
+$(document).ready(function(){
+
+    function responseRobot(response)
+    {
+        if (typeof response.render != 'undefined')
+        {
+            for (var elm in response.render) {
+                $(elm).html(response.render[elm]);
+            }
+        }
+        if (typeof response.render_append != 'undefined')
+        {
+            for (var elm in response.render_append) {
+                $(elm).append(response.render_append[elm]);
+            }
+        }
+        if (typeof response.refresh_page != 'undefined')
+        {
+            location.reload();
+        }
+    }
+
+    $(document).on('click', '[data-action="login"]', function(e){
+        $.ajax({
+            url: "api.php",
+            data: {login: true, rand: Math.random().toString(18).substring(2, 10)},
+            dataType: 'json'
+        }).done(function(response) {
+            responseRobot(response);
+        });
+    });
+
+    $(document).on('click', '[data-action="logout"]', function(e){
+        $.ajax({
+            url: "api.php",
+            data: {logout: true, rand: Math.random().toString(18).substring(2, 10)},
+            dataType: 'json'
+        }).done(function(response) {
+            responseRobot(response);
+        });
+    });
+
+    // check member
+    $.ajax({
+        url: "api.php",
+        data: {rand: Math.random().toString(18).substring(2, 10)},
+        dataType: 'json'
+    }).done(function(response) {
+        responseRobot(response);
+    });
+});
+</script>
+
+</body>
+</html>
